@@ -1,0 +1,183 @@
+[gd_scene load_steps=4 format=3 uid="uid://nhyhp0c1chfv"]
+
+[ext_resource type="Script" uid="uid://sfnqodu88f07" path="res://scripts/game_manager.gd" id="1_game_manager"]
+[ext_resource type="PackedScene" path="res://scenes/level_01.tscn" id="2_level_01"]
+[ext_resource type="PackedScene" path="res://scenes/enemy.tscn" id="3_sugp2"]
+
+[node name="Main" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_game_manager")
+level_scenes = Array[PackedScene]([ExtResource("2_level_01")])
+
+[node name="Level01" parent="." instance=ExtResource("2_level_01")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 10
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 42.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="TopBarBg" type="ColorRect" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 560.0
+offset_bottom = 42.0
+mouse_filter = 2
+color = Color(0.12, 0.13, 0.16, 0.82)
+
+[node name="ControlsLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 15.0
+offset_right = 548.0
+offset_bottom = 39.0
+theme_override_colors/font_color = Color(0.95, 0.96, 0.98, 1)
+theme_override_font_sizes/font_size = 14
+text = "Move: A/D or Arrows   |   Jump: Space/W/Up   |   Restart: R   |   Pause: Esc"
+vertical_alignment = 1
+
+[node name="PauseOverlay" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dimmer" type="ColorRect" parent="UI/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.07, 0.1, 0.55)
+
+[node name="Panel" type="ColorRect" parent="UI/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -120.0
+offset_right = 180.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14, 0.15, 0.19, 0.96)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseOverlay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = -28.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="UI/PauseOverlay/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 0.99, 1)
+theme_override_font_sizes/font_size = 26
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="UI/PauseOverlay/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Resume Game (Esc)"
+
+[node name="RestartButton" type="Button" parent="UI/PauseOverlay/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Restart Level (R)"
+
+[node name="CompletionOverlay" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dimmer" type="ColorRect" parent="UI/CompletionOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.08, 0.1, 0.45)
+
+[node name="Panel" type="ColorRect" parent="UI/CompletionOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -130.0
+offset_right = 210.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13, 0.15, 0.19, 0.96)
+
+[node name="TopAccent" type="ColorRect" parent="UI/CompletionOverlay/Panel"]
+layout_mode = 0
+offset_right = 420.0
+offset_bottom = 6.0
+color = Color(0.2, 0.76, 0.45, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CompletionOverlay/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 26.0
+offset_right = -32.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="UI/CompletionOverlay/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.85, 0.52, 1)
+theme_override_font_sizes/font_size = 28
+text = "LEVEL COMPLETE!"
+horizontal_alignment = 1
+
+[node name="SubLabel" type="Label" parent="UI/CompletionOverlay/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.9, 0.94, 1)
+theme_override_font_sizes/font_size = 16
+text = "Great job! You reached the finish area."
+horizontal_alignment = 1
+
+[node name="PlayAgainButton" type="Button" parent="UI/CompletionOverlay/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Play Again (R)"
+
+[node name="Enemy" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(2024, 509)

@@ -1,0 +1,438 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_level_script"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://scenes/enemy.tscn" id="3_enemy_scene"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(40, 920)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_start"]
+size = Vector2(480, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor2"]
+size = Vector2(400, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_200"]
+size = Vector2(200, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_180"]
+size = Vector2(180, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_220"]
+size = Vector2(220, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor3"]
+size = Vector2(340, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurdle"]
+size = Vector2(44, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_150"]
+size = Vector2(150, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_finish_plat"]
+size = Vector2(300, 340)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_finish_area"]
+size = Vector2(64, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fall_zone"]
+size = Vector2(3600, 80)
+
+[node name="Level01" type="Node2D"]
+script = ExtResource("1_level_script")
+camera_limit_left = 0
+camera_limit_top = -200
+camera_limit_right = 2800
+camera_limit_bottom = 720
+fall_limit_y = 760.0
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="SkyBackground" type="ColorRect" parent="BackgroundLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.945, 0.955, 0.97, 1)
+
+[node name="WorldBackdrop" type="Node2D" parent="."]
+
+[node name="PillarBg1" type="ColorRect" parent="WorldBackdrop"]
+offset_left = 220.0
+offset_top = 260.0
+offset_right = 310.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.89, 0.905, 0.93, 1)
+
+[node name="PillarBg2" type="ColorRect" parent="WorldBackdrop"]
+offset_left = 740.0
+offset_top = 180.0
+offset_right = 850.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.89, 0.905, 0.93, 1)
+
+[node name="PillarBg3" type="ColorRect" parent="WorldBackdrop"]
+offset_left = 1390.0
+offset_top = 120.0
+offset_right = 1510.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.89, 0.905, 0.93, 1)
+
+[node name="PillarBg4" type="ColorRect" parent="WorldBackdrop"]
+offset_left = 2010.0
+offset_top = 220.0
+offset_right = 2110.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.89, 0.905, 0.93, 1)
+
+[node name="PillarBg5" type="ColorRect" parent="WorldBackdrop"]
+offset_left = 2530.0
+offset_top = 140.0
+offset_right = 2650.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.89, 0.905, 0.93, 1)
+
+[node name="TutorialHints" type="Node2D" parent="."]
+
+[node name="MoveHint" type="Label" parent="TutorialHints"]
+offset_left = 90.0
+offset_top = 410.0
+offset_right = 350.0
+offset_bottom = 460.0
+theme_override_colors/font_color = Color(0.32, 0.35, 0.42, 1)
+theme_override_font_sizes/font_size = 16
+text = "A / D or Arrow Keys to Move
+SPACE / W / UP to Jump"
+horizontal_alignment = 1
+
+[node name="GapHint" type="Label" parent="TutorialHints"]
+offset_left = 470.0
+offset_top = 450.0
+offset_right = 690.0
+offset_bottom = 490.0
+theme_override_colors/font_color = Color(0.32, 0.35, 0.42, 1)
+theme_override_font_sizes/font_size = 15
+text = "Jump across the gap ->"
+horizontal_alignment = 1
+
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="LeftWall" type="StaticBody2D" parent="Platforms"]
+position = Vector2(20, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/LeftWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Visual" type="ColorRect" parent="Platforms/LeftWall"]
+offset_left = -20.0
+offset_top = -460.0
+offset_right = 20.0
+offset_bottom = 460.0
+color = Color(0.14, 0.15, 0.18, 1)
+
+[node name="StartPlatform" type="StaticBody2D" parent="Platforms"]
+position = Vector2(280, 630)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/StartPlatform"]
+shape = SubResource("RectangleShape2D_start")
+
+[node name="Visual" type="ColorRect" parent="Platforms/StartPlatform"]
+offset_left = -240.0
+offset_top = -90.0
+offset_right = 240.0
+offset_bottom = 90.0
+color = Color(0.15, 0.16, 0.2, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/StartPlatform"]
+offset_left = -240.0
+offset_top = -90.0
+offset_right = 240.0
+offset_bottom = -84.0
+color = Color(0.28, 0.31, 0.38, 1)
+
+[node name="FloorSection2" type="StaticBody2D" parent="Platforms"]
+position = Vector2(840, 630)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/FloorSection2"]
+shape = SubResource("RectangleShape2D_floor2")
+
+[node name="Visual" type="ColorRect" parent="Platforms/FloorSection2"]
+offset_left = -200.0
+offset_top = -90.0
+offset_right = 200.0
+offset_bottom = 90.0
+color = Color(0.15, 0.16, 0.2, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/FloorSection2"]
+offset_left = -200.0
+offset_top = -90.0
+offset_right = 200.0
+offset_bottom = -84.0
+color = Color(0.28, 0.31, 0.38, 1)
+
+[node name="PlatformA" type="StaticBody2D" parent="Platforms"]
+position = Vector2(860, 452)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/PlatformA"]
+shape = SubResource("RectangleShape2D_plat_200")
+
+[node name="Visual" type="ColorRect" parent="Platforms/PlatformA"]
+offset_left = -100.0
+offset_top = -12.0
+offset_right = 100.0
+offset_bottom = 12.0
+color = Color(0.16, 0.17, 0.22, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/PlatformA"]
+offset_left = -100.0
+offset_top = -12.0
+offset_right = 100.0
+offset_bottom = -7.0
+color = Color(0.3, 0.34, 0.42, 1)
+
+[node name="PlatformB" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1160, 382)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/PlatformB"]
+shape = SubResource("RectangleShape2D_plat_180")
+
+[node name="Visual" type="ColorRect" parent="Platforms/PlatformB"]
+offset_left = -90.0
+offset_top = -12.0
+offset_right = 90.0
+offset_bottom = 12.0
+color = Color(0.16, 0.17, 0.22, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/PlatformB"]
+offset_left = -90.0
+offset_top = -12.0
+offset_right = 90.0
+offset_bottom = -7.0
+color = Color(0.3, 0.34, 0.42, 1)
+
+[node name="PlatformC_High" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1450, 302)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/PlatformC_High"]
+shape = SubResource("RectangleShape2D_plat_180")
+
+[node name="Visual" type="ColorRect" parent="Platforms/PlatformC_High"]
+offset_left = -90.0
+offset_top = -12.0
+offset_right = 90.0
+offset_bottom = 12.0
+color = Color(0.16, 0.17, 0.22, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/PlatformC_High"]
+offset_left = -90.0
+offset_top = -12.0
+offset_right = 90.0
+offset_bottom = -7.0
+color = Color(0.3, 0.34, 0.42, 1)
+
+[node name="PlatformC_Low" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1450, 492)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/PlatformC_Low"]
+shape = SubResource("RectangleShape2D_plat_220")
+
+[node name="Visual" type="ColorRect" parent="Platforms/PlatformC_Low"]
+offset_left = -110.0
+offset_top = -12.0
+offset_right = 110.0
+offset_bottom = 12.0
+color = Color(0.16, 0.17, 0.22, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/PlatformC_Low"]
+offset_left = -110.0
+offset_top = -12.0
+offset_right = 110.0
+offset_bottom = -7.0
+color = Color(0.3, 0.34, 0.42, 1)
+
+[node name="PlatformD" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1740, 232)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/PlatformD"]
+shape = SubResource("RectangleShape2D_plat_180")
+
+[node name="Visual" type="ColorRect" parent="Platforms/PlatformD"]
+offset_left = -90.0
+offset_top = -12.0
+offset_right = 90.0
+offset_bottom = 12.0
+color = Color(0.16, 0.17, 0.22, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/PlatformD"]
+offset_left = -90.0
+offset_top = -12.0
+offset_right = 90.0
+offset_bottom = -7.0
+color = Color(0.3, 0.34, 0.42, 1)
+
+[node name="FloorSection3" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1950, 630)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/FloorSection3"]
+shape = SubResource("RectangleShape2D_floor3")
+
+[node name="Visual" type="ColorRect" parent="Platforms/FloorSection3"]
+offset_left = -170.0
+offset_top = -90.0
+offset_right = 170.0
+offset_bottom = 90.0
+color = Color(0.15, 0.16, 0.2, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/FloorSection3"]
+offset_left = -170.0
+offset_top = -90.0
+offset_right = 170.0
+offset_bottom = -84.0
+color = Color(0.28, 0.31, 0.38, 1)
+
+[node name="WallHurdle" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1945, 495)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/WallHurdle"]
+shape = SubResource("RectangleShape2D_hurdle")
+
+[node name="Visual" type="ColorRect" parent="Platforms/WallHurdle"]
+offset_left = -22.0
+offset_top = -45.0
+offset_right = 22.0
+offset_bottom = 45.0
+color = Color(0.2, 0.22, 0.27, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/WallHurdle"]
+offset_left = -22.0
+offset_top = -45.0
+offset_right = 22.0
+offset_bottom = -39.0
+color = Color(0.34, 0.38, 0.46, 1)
+
+[node name="PlatformE" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2290, 472)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/PlatformE"]
+shape = SubResource("RectangleShape2D_plat_150")
+
+[node name="Visual" type="ColorRect" parent="Platforms/PlatformE"]
+offset_left = -75.0
+offset_top = -12.0
+offset_right = 75.0
+offset_bottom = 12.0
+color = Color(0.16, 0.17, 0.22, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/PlatformE"]
+offset_left = -75.0
+offset_top = -12.0
+offset_right = 75.0
+offset_bottom = -7.0
+color = Color(0.3, 0.34, 0.42, 1)
+
+[node name="FinishPlatform" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2610, 550)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/FinishPlatform"]
+shape = SubResource("RectangleShape2D_finish_plat")
+
+[node name="Visual" type="ColorRect" parent="Platforms/FinishPlatform"]
+offset_left = -150.0
+offset_top = -170.0
+offset_right = 150.0
+offset_bottom = 170.0
+color = Color(0.15, 0.16, 0.2, 1)
+
+[node name="TopTrim" type="ColorRect" parent="Platforms/FinishPlatform"]
+offset_left = -150.0
+offset_top = -170.0
+offset_right = 150.0
+offset_bottom = -164.0
+color = Color(0.22, 0.65, 0.42, 1)
+
+[node name="RightWall" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2780, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/RightWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Visual" type="ColorRect" parent="Platforms/RightWall"]
+offset_left = -20.0
+offset_top = -460.0
+offset_right = 20.0
+offset_bottom = 460.0
+color = Color(0.14, 0.15, 0.18, 1)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(180, 500)
+
+[node name="FinishArea" type="Area2D" parent="."]
+position = Vector2(2610, 330)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FinishArea"]
+shape = SubResource("RectangleShape2D_finish_area")
+
+[node name="GoalGlow" type="ColorRect" parent="FinishArea"]
+offset_left = -32.0
+offset_top = -50.0
+offset_right = 32.0
+offset_bottom = 50.0
+mouse_filter = 2
+color = Color(0.2, 0.78, 0.46, 0.22)
+
+[node name="GoalPole" type="ColorRect" parent="FinishArea"]
+offset_left = -3.0
+offset_top = -46.0
+offset_right = 3.0
+offset_bottom = 50.0
+mouse_filter = 2
+color = Color(0.14, 0.15, 0.18, 1)
+
+[node name="GoalFlag" type="Polygon2D" parent="FinishArea"]
+color = Color(0.16, 0.72, 0.42, 1)
+polygon = PackedVector2Array(3, -46, 42, -31, 3, -16)
+
+[node name="GoalBase" type="ColorRect" parent="FinishArea"]
+offset_left = -16.0
+offset_top = 44.0
+offset_right = 16.0
+offset_bottom = 50.0
+mouse_filter = 2
+color = Color(0.14, 0.15, 0.18, 1)
+
+[node name="GoalLabel" type="Label" parent="FinishArea"]
+offset_left = -45.0
+offset_top = -76.0
+offset_right = 45.0
+offset_bottom = -50.0
+theme_override_colors/font_color = Color(0.14, 0.56, 0.34, 1)
+theme_override_font_sizes/font_size = 15
+text = "FINISH"
+horizontal_alignment = 1
+
+[node name="FallZone" type="Area2D" parent="."]
+position = Vector2(1400, 800)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FallZone"]
+shape = SubResource("RectangleShape2D_fall_zone")
+
+[node name="Enemy" parent="." instance=ExtResource("3_enemy_scene")]
+position = Vector2(840, 521)
+patrol_range = 120.0
+
+[node name="Enemy2" parent="." instance=ExtResource("3_enemy_scene")]
+position = Vector2(2024, 509)
+patrol_range = 70.0
+
+[node name="Player" parent="." instance=ExtResource("2_player_scene")]
+position = Vector2(180, 500)
